@@ -56,7 +56,7 @@ export default class ToolTip extends React.Component {
     }
 
     const newProps = {...props}
-    if (state.wasActive && !props.active) {
+    if (portalNode && state.wasActive && !props.active) {
       newProps.active = true
       portalNode.timeout = setTimeout(() => {
         ToolTip.renderPortal({...props, active: false})
