@@ -209,9 +209,9 @@ export default class Card extends Component {
     }
 
     // fix for svg
-    if (!parent.offsetHeight && parent.getBoundingClientRect) {
-      parentSize.width = parent.getBoundingClientRect().width
-      parentSize.height = parent.getBoundingClientRect().height
+    if (!parent.offsetHeight) {
+      parentSize.width = tooltipPosition.width
+      parentSize.height = tooltipPosition.height
     }
 
     if (align === 'left') {
