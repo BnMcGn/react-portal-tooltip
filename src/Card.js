@@ -56,6 +56,8 @@ export default class Card extends Component {
 
   rootRef = React.createRef()
 
+  updateSizeRepetitionLimit = 0
+
   getGlobalStyle() {
     if (!this.props.parentEl) {
       return {display: 'none'}
@@ -318,11 +320,16 @@ export default class Card extends Component {
   }
 
   componentDidMount() {
+    this.updateSizeRepetitionLimit = 4
     this.updateSize()
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props !== prevProps){
+    if (this.props !== prevProps) {
+      this.updateSizeRepetitionLimit = 4
+      this.updateSize()
+    } else if (this.updateSizeRepetitionLimit) {
+      this.updateSizeRepetitionLimit--
       this.updateSize()
     }
   }
