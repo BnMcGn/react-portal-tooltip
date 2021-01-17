@@ -27,8 +27,8 @@
   "author": "Romain Berger <romain@romainberger.com>",
   "license": "MIT",
   "peerDependencies": {
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0"
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
     "@babel/cli": "7.2.3",
@@ -41,8 +41,8 @@
     "@babel/preset-react": "7.0.0",
     "@babel/register": "7.4.0",
     "mocha": "^8.2.0",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "react-test-renderer": "^16.0.0"
   }
 }
