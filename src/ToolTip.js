@@ -36,7 +36,7 @@ export default class ToolTip extends React.Component {
   static renderPortal(portalNode, props) {
     const {parent, ...other} = props
     const parentEl = typeof parent === 'string' ? document.querySelector(parent) : parent
-    ReactDOM.render(<Card parentEl={parentEl} {...other}/>, portalNode.node)
+    return ReactDOM.createPortal(<Card parentEl={parentEl} {...other}/>, portalNode.node)
   }
 
   componentDidMount() {
@@ -84,6 +84,6 @@ export default class ToolTip extends React.Component {
   }
 
   render() {
-    return null
+      return ToolTip.renderPortal(ToolTip.createPortal(), this.props)
   }
 }
