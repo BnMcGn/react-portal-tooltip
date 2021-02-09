@@ -7,6 +7,10 @@ import Card from "./Card"
 const portalNodes = {}
 
 export default class ToolTip extends React.Component {
+  state = {
+    display: false
+  }
+
   static propTypes = {
     parent: PropTypes.oneOfType([
         PropTypes.string,
@@ -26,11 +30,21 @@ export default class ToolTip extends React.Component {
   static createPortal() {
     const portalNode = {
       node: document.createElement('div'),
+      closeIt: null,
       timeout: false
     }
     portalNode.node.className = 'ToolTipPortal'
     document.body.appendChild(portalNode.node)
     return portalNode
+  }
+
+  static getPortal(group) {
+    let portalNode = portalNodes[group]
+    if (!portalNode) {
+      portalNode = ToolTip.createPortal()
+      portalNodes[group] = portalNode
+    }
+		return portalNode
   }
 
   static renderPortal(portalNode, props) {
@@ -54,16 +68,25 @@ export default class ToolTip extends React.Component {
 
       if (portalNode.timeout) {
         clearTimeout(portalNode.timeout)
+        if (portalNode.closeIt) {
+					portalNode.closeIt()
+          portalNode.closeIt = null
+				}
       }
       portalNode.timeout = setTimeout(() => {
-        ToolTip.renderPortal(portalNode, this.props)
+				this.setState({display: true})
       }, 0)
-    } else if (prevProps.active && portalNode) {
+    } else if (portalNode && (prevProps.active || this.state.display)) {
       if (portalNode.timeout) {
         clearTimeout(portalNode.timeout)
       }
+			portalNode.closeIt = () => {
+				if (!this.props.active) {
+					this.setState({display: false})
+				}
+			}
       portalNode.timeout = setTimeout(() => {
-        ToolTip.renderPortal(portalNode, this.props)
+				this.setState({display: false})
       }, this.props.tooltipTimeout)
     }
   }
@@ -84,6 +107,8 @@ export default class ToolTip extends React.Component {
   }
 
   render() {
-      return ToolTip.renderPortal(ToolTip.createPortal(), this.props)
+		let portal = ToolTip.getPortal(this.props.group)
+      return ToolTip.renderPortal(portal, {...this.props,
+                                           active: this.state.display || this.props.active})
   }
 }
